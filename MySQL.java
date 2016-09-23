@@ -1,11 +1,17 @@
+
+//Es necesario importar y configurar previamente el driver para que la conexión co MySQL funcione.
 package mysql_test;
- 
+
+//Librerias para funcionamiento de MySQL 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+//Estas dos librerias permiten crear un log del programa
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
  
 public class MySQL {

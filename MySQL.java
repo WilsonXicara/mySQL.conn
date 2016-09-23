@@ -11,7 +11,8 @@ import javax.swing.JOptionPane;
 public class MySQL {
  
     private static Connection Conexion;
- 
+    
+    // Funcion que nos permite establecer la conexión con la base de datos
     public void MySQLConnection(String user, String pass, String db_name) {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -23,7 +24,8 @@ public class MySQL {
             Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
- 
+    
+    // Funcion que nos permite cerrar la conexión con la base de datos
     public void closeConnection() {
         try {
             Conexion.close();
@@ -32,7 +34,8 @@ public class MySQL {
             Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
- 
+
+    //Funcion que nos permite crear una nueva base de datos
     public void createDB(String name) {
         try {
             String Query = "CREATE DATABASE " + name;
@@ -45,6 +48,7 @@ public class MySQL {
         }
     }
  
+    //Funcion que nos permite crear una nueva tabla
     public void createTable(String name) {
         try {
             String Query = "CREATE TABLE " + name + ""
@@ -57,7 +61,8 @@ public class MySQL {
             Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
- 
+    
+    //Funcion que nos permite insertar datos en una tabla ya existente
     public void insertData(String table_name, String ID, String name, String lastname, String age, String gender) {
         try {
             String Query = "INSERT INTO " + table_name + " VALUES("
@@ -74,6 +79,7 @@ public class MySQL {
         }
     }
  
+    //Funcion que nos permite recoger valores de una tabla existente
     public void getValues(String table_name) {
         try {
             String Query = "SELECT * FROM " + table_name;
@@ -93,6 +99,7 @@ public class MySQL {
         }
     }
  
+    //Funcion que nos permite borrar un registro
     public void deleteRecord(String table_name, String ID) {
         try {
             String Query = "DELETE FROM " + table_name + " WHERE ID = \"" + ID + "\"";

@@ -23,14 +23,18 @@ import javax.swing.JOptionPane;
 
 public class DBConn {
     
+    protected final String DBHost = "us-cdbr-iron-east-04.cleardb.net";
+    protected final String DBUser = "bb93fad27fd7a5";
+    protected final String DBPass = "de319f9d";
+    protected final String DBName = "ad_5a8b0d74982dbe1";
+    
     private static Connection Conexion;
     
     // Funcion que nos permite establecer la conexión con la base de datos
-    public void MySQLConnection(String user, String pass, String db_name) {
+    public void MySQLConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db_name + "?useSSL=false", user, pass);
-            //System.err.println("Se ha iniciado la conexión con el servidor de forma exitosa");
+            Conexion = DriverManager.getConnection("jdbc:mysql://" + DBHost + ":3306/" + DBName + "?useSSL=false", DBUser, DBPass);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBConn.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -51,7 +55,7 @@ public class DBConn {
     //Funcion que nos permite insertar datos en una tabla ya existente
     public void insertarUsuario(String table_name,String user_name, String user_pass) {
         try {  
-            String Query = "INSERT INTO `users` (`ID`, `user_name`, `user_pass`) VALUES (NULL, '"+user_name+"', '"+user_pass+"')";               
+            String Query = "INSERT INTO `"+ DBName +"`.`"+ table_name +"` (`username`, `userpass`) VALUES ('"+user_name+"', '"+user_pass+"')";               
             Statement st = Conexion.createStatement();
             st.executeUpdate(Query);
             System.out.println("\n<<< Datos almacenados de forma exitosa.\n<<< Usuario: "+user_name+"\n<<< Contraseña: "+ user_pass +"\n");            
@@ -66,9 +70,9 @@ public class DBConn {
     }
  
     //Funcion que nos permite recoger valores de una tabla existente
-    public void getValues(String table_name) {
+    public void getUsers(String table_name) {
         try {
-            String Query = "SELECT * FROM " + table_name;
+            String Query = "SELECT * FROM ad_5a8b0d74982dbe1.users;";
             Statement st = Conexion.createStatement();
             java.sql.ResultSet resultSet;
             resultSet = st.executeQuery(Query);
@@ -78,19 +82,20 @@ public class DBConn {
             }else{
                 resultSet.beforeFirst();
                 while (resultSet.next()) {
-                    System.out.println("\n >>> ID [" + resultSet.getString("ID") + "] \n >>> Usuario: " + resultSet.getString("user_name")+ "\n >>> Contraseña: " + resultSet.getString("user_pass"));                       
+                    System.out.println("\n >>> ID [" + resultSet.getString("iduser") + "] \n >>> Usuario: " + resultSet.getString("username")+ "\n >>> Contraseña: " + resultSet.getString("userpass"));                       
                 }
             }
  
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error en la adquisición de datos");
         }
+        
     }
  
     //Funcion que nos permite borrar un registro
     public void deleteRecord(String table_name, int ID) {
         try {
-            String Query = "DELETE FROM " + table_name + " WHERE ID = \"" + ID + "\"";
+            String Query = "DELETE FROM " + table_name + " WHERE iduser = " + ID ;
             Statement st = Conexion.createStatement();
             if (st.executeUpdate(Query)==1){
             System.out.print("\n<<< Registro de la tabla '"+table_name+"' con numero de identificación '"+ID+"' borrado correctamente\n");
@@ -125,17 +130,17 @@ public class DBConn {
     */
     
      //Funcion que nos permite crear una nueva base de datos
-    public void createDB(String name) {
-        try {
-            String Query = "CREATE DATABASE " + name;
-            Statement st = Conexion.createStatement();
-            st.executeUpdate(Query);
-            MySQLConnection("root", "", name);
-            JOptionPane.showMessageDialog(null, "Se ha creado la base de datos " + name + " de forma exitosa");
-        } catch (SQLException ex) {
-            Logger.getLogger(DBConn.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void createDB(String name) {
+//        try {
+//            String Query = "CREATE DATABASE " + name;
+//            Statement st = Conexion.createStatement();
+//            st.executeUpdate(Query);
+//            MySQLConnection("root", "", name);
+//            JOptionPane.showMessageDialog(null, "Se ha creado la base de datos " + name + " de forma exitosa");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DBConn.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
  
     //Funcion que nos permite crear una nueva tabla
     public void createTable(String name) {

@@ -9,10 +9,9 @@ import java.util.Scanner;
 
 public class Launcher {
     
-    protected static String DBUserAccess = "YOUR_USERNAME";
-    protected static String DBPassAccess = "YOUR_PASSWORD";
-    protected static String DBUserTable = "DATA_TABLE";
-    protected static String DBName = "DB_NAME";
+    protected static String DBUserTable = "users";
+    protected static String DBEventTable = "events";
+    
    
     public static void main(String[] args) {
        
@@ -30,7 +29,7 @@ public class Launcher {
                     System.out.print("Contraseña: ");
                     String user_pass = sc.next();                     
            
-                        conn.MySQLConnection(DBUserAccess,DBPassAccess,DBName);
+                        conn.MySQLConnection();
                         conn.insertarUsuario(DBUserTable, user_name, user_pass);
                         conn.closeConnection();                  
                 
@@ -38,19 +37,19 @@ public class Launcher {
                 case 2:   
                     System.out.print("\nID: ");                    
                     int user_id = sc.nextInt();
-                    conn.MySQLConnection(DBUserAccess,DBPassAccess,DBName);
+                    conn.MySQLConnection();
                     conn.deleteRecord(DBUserTable, user_id);
                     conn.closeConnection();
                     
                     break;
                 case 3:    
-                        conn.MySQLConnection(DBUserAccess,DBPassAccess,DBName);
-                        conn.getValues(DBUserTable);
+                        conn.MySQLConnection();
+                        conn.getUsers(DBUserTable);
                         conn.closeConnection();
                     break;
                 case 4: 
                     if(confirm(sc)==1){
-                        conn.MySQLConnection(DBUserAccess,DBPassAccess,DBName);
+                        conn.MySQLConnection();
                         conn.cleanDB(DBUserTable);
                         conn.closeConnection();
                     }else{
